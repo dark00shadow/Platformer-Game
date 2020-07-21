@@ -81,7 +81,7 @@ def BlockSolid(BlockX, BlockY):
         if key_handler[key.W]:
             PlayerOldPosY = Player.y
             Jump = True
-    if collision.rectangle(Player.x,Player.y+0.1 ,BlockX,BlockY ,32,32 ,32,2):
+    if collision.rectangle(Player.x,Player.y+0.1 ,BlockX+2,BlockY ,32,32 ,30,2):
         Jump = False
     if collision.rectangle(Player.x,Player.y ,BlockX,BlockY+1 ,32,32 ,2,30):
         Player.x -= 1
