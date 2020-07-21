@@ -183,21 +183,26 @@ def update(dt):
         if collision.rectangle(Player.x,Player.y ,l0Enemy1.x,l0Enemy1.y ,32,32 ,32,32) and Level == 0:
                 Player.x = 100
                 Player.y = 200
+                Jump = False
         if collision.rectangle(Player.x,Player.y ,l0Goal1.x,l0Goal1.y ,32,32 ,32,32) and Level == 0:
                 Player.x = 100
                 Player.y = 200
                 Level = 1
+                Jump = False
         if collision.rectangle(Player.x,Player.y ,l1Enemy1.x,l1Enemy1.y ,32,32 ,32,32) and Level == 1:
                 Player.x = 100
                 Player.y = 200
+                Jump = False
         if collision.rectangle(Player.x,Player.y ,l1Goal1.x,l1Goal1.y ,32,32 ,32,32) and Level == 1:
                 Player.x = 100
                 Player.y = 200
                 Level = 2
+                Jump = False
         if collision.rectangle(Player.x,Player.y ,l2Goal1.x,l2Goal1.y ,32,32 ,32,32) and Level == 2:
                 Player.x = 100
                 Player.y = 200
                 Level = 3
+                Jump = False
 # Draw the objects on screen
 @window.event
 def on_draw():
