@@ -13,6 +13,10 @@ window.set_icon(pyglet.image.load(Texture+ 'Icon.ico'))
 glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
+pyglet.gl.glClearColor(1,1,1,0)
+gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+
+
 # Key handler
 key_handler = key.KeyStateHandler()
 window.push_handlers(key_handler)
@@ -31,7 +35,7 @@ Level2 = pyglet.graphics.Batch()
 Level3 = pyglet.graphics.Batch()
 # Start Menu
 StartButton = pyglet.image.load(Texture+ 'Start button.png')
-StartLabel = pyglet.text.Label('Platformer game', x=50,y=500,color=(0,128,0,255), font_size=50)
+StartLabel = pyglet.text.Label('Platformer game', x=20,y=500,color=(0,128,0,255), font_size=50)
 # Player
 PlayerImage1 = pyglet.image.load(Texture+ 'Player=Left.png')
 PlayerImage2 = pyglet.image.load(Texture+ 'Player=Right.png')
@@ -41,7 +45,8 @@ Jump = False
 PlayerDirection = 'right'
 # Blocks
 BlockImage1 = pyglet.image.load(Texture+ 'Grass.png')
-# Base
+BlockImage2 = pyglet.image.load(Texture+ 'Block2.png')
+ # Base
 BBlock1 = pyglet.sprite.Sprite(BlockImage1 ,x=0,y=100, batch=Base)
 BBlock2 = pyglet.sprite.Sprite(BlockImage1 ,x=32,y=100, batch=Base)
 BBlock3 = pyglet.sprite.Sprite(BlockImage1 ,x=64,y=100, batch=Base)
@@ -61,14 +66,14 @@ BBlock16 = pyglet.sprite.Sprite(BlockImage1 ,x=480,y=100, batch=Base)
 BBlock17 = pyglet.sprite.Sprite(BlockImage1 ,x=512,y=100, batch=Base)
 BBlock18 = pyglet.sprite.Sprite(BlockImage1 ,x=544,y=100, batch=Base)
 BBlock19 = pyglet.sprite.Sprite(BlockImage1 ,x=576,y=100, batch=Base)
-# level1
+ # level1
 l1Block1 = pyglet.sprite.Sprite(BlockImage1 ,x=192,y=132, batch=Level1)
 l1Block2 = pyglet.sprite.Sprite(BlockImage1 ,x=288,y=196, batch=Level1)
 l1Block3 = pyglet.sprite.Sprite(BlockImage1 ,x=384,y=196, batch=Level1)
 l1Block4 = pyglet.sprite.Sprite(BlockImage1 ,x=416,y=196, batch=Level1)
 l1Block5 = pyglet.sprite.Sprite(BlockImage1 ,x=448,y=196, batch=Level1)
 l1Block6 = pyglet.sprite.Sprite(BlockImage1 ,x=544,y=196, batch=Level1)
-# level2
+ # level2
 l2Block1 = pyglet.sprite.Sprite(BlockImage1 ,x=192,y=164, batch=Level2)
 l2Block2 = pyglet.sprite.Sprite(BlockImage1 ,x=256,y=196, batch=Level2)
 l2Block3 = pyglet.sprite.Sprite(BlockImage1 ,x=160,y=256, batch=Level2)
@@ -76,6 +81,18 @@ l2Block4 = pyglet.sprite.Sprite(BlockImage1 ,x=288,y=288, batch=Level2)
 l2Block5 = pyglet.sprite.Sprite(BlockImage1 ,x=416,y=288, batch=Level2)
 l2Block6 = pyglet.sprite.Sprite(BlockImage1 ,x=512,y=288, batch=Level2)
 l2Block7 = pyglet.sprite.Sprite(BlockImage1 ,x=560,y=352, batch=Level2)
+# Level3
+l3Block1 = pyglet.sprite.Sprite(BlockImage2 ,x=576,y=164, batch=Level3)
+l3Block2 = pyglet.sprite.Sprite(BlockImage2 ,x=544,y=164, batch=Level3)
+l3Block3 = pyglet.sprite.Sprite(BlockImage2 ,x=512,y=164, batch=Level3)
+l3Block4 = pyglet.sprite.Sprite(BlockImage2 ,x=480,y=164, batch=Level3)
+l3Block5 = pyglet.sprite.Sprite(BlockImage2 ,x=448,y=164, batch=Level3)
+l3Block6 = pyglet.sprite.Sprite(BlockImage2 ,x=416,y=164, batch=Level3)
+l3Block7 = pyglet.sprite.Sprite(BlockImage2 ,x=384,y=164, batch=Level3)
+l3Block8 = pyglet.sprite.Sprite(BlockImage2 ,x=353,y=164, batch=Level3)
+l3Block9 = pyglet.sprite.Sprite(BlockImage2 ,x=321,y=164, batch=Level3)
+l3Block10 = pyglet.sprite.Sprite(BlockImage2 ,x=289,y=164, batch=Level3)
+l3Block11 = pyglet.sprite.Sprite(BlockImage2 ,x=257,y=164, batch=Level3)
 def BlockSolid(BlockX, BlockY):
     global Jump, PlayerOldPosY
     if collision.rectangle(Player.x,Player.y ,BlockX+5,BlockY+30 ,32,32 ,22,2):
@@ -93,20 +110,22 @@ def BlockSolid(BlockX, BlockY):
         Bullet.visible = False
 # Enemy
 EnemyImage1 = pyglet.image.load(Texture+ 'Enemy.png')
-# level0
+ # level0
 l0Enemy1 = pyglet.sprite.Sprite(EnemyImage1 ,x=220,y=132, batch=Level0)
-# level1
+ # level1
 l1Enemy1 = pyglet.sprite.Sprite(EnemyImage1 ,x=416,y=228, batch=Level1)
 # Goal
 GoalImage1 = pyglet.image.load(Texture+ 'Goal.png')
-# level0
+ # level0
 l0Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=544,y=132, batch=Level0)
-# level1
+ # level1
 l1Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=544,y=228, batch=Level1)
-# level2
+ # level2
 l2Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=560,y=384, batch=Level2)
+ # level3
+l3Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=568,y=132, batch=Level3)
 # you won
-WinLabel = pyglet.text.Label('You have won welldone :)', x=50,y=300,font_size=30)
+WinLabel = pyglet.text.Label('You have won welldone :)', x=20,y=300,font_size=30)
 # Bullet
 Bullet = pyglet.sprite.Sprite(pyglet.image.load(Texture+ 'bullet.png') ,x=300,y=300)
 BulletDirection = 'left'
@@ -115,8 +134,7 @@ SpacePressed = False
 shoot = False
 # Breakable block
 BreakableBlockImage1 = pyglet.image.load(Texture+ 'Breakable block.png')
-l3BreakableBlock1 = pyglet.sprite.Sprite(BreakableBlockImage1 ,x=300,y=132, batch=Level3)
-l3BreakableBlock2 = pyglet.sprite.Sprite(BreakableBlockImage1 ,x=300,y=164, batch=Level3)
+l3BreakableBlock1 = pyglet.sprite.Sprite(BreakableBlockImage1 ,x=257,y=132, batch=Level3)
 # Mouse Position
 MouseX = 0
 MouseY = 0
@@ -136,10 +154,9 @@ def update(dt):
     global Start, Jump, Level, PlayerDirection, SpacePressed, shoot, BulletDirection
     # If Start = True
     if Start == True:
-        pyglet.gl.glClearColor(0.5,1,1,0)
+        pyglet.gl.glClearColor(1,1,1,0)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         if collision.rectangle(MouseX,MouseY ,200,300 ,1,1 ,183,65):
-
             if mouse_handler[mouse.LEFT]: Start = False
 
     # If start = False
@@ -162,11 +179,11 @@ def update(dt):
             Player.y += 3
             if Player.y >= PlayerOldPosY + 80: Jump = False
         if key_handler[key.SPACE] and SpacePressed == False and Bullet.visible == False and shoot == True:
-            SpacePressed == True
+            SpacePressed = True
             BulletDirection = PlayerDirection
             Bullet.visible = True
             shoot = False
-        if SpacePressed == True and not KeyHandler[key.SPACE]: SpacePressed = False
+        if SpacePressed == True and not key_handler[key.SPACE]: SpacePressed = False
         if Bullet.visible == False:
             Bullet.y = Player.y+ 16
             if PlayerDirection == 'left': Bullet.x = Player.x
@@ -202,14 +219,12 @@ def update(dt):
         BlockSolid(BBlock18.x,BBlock18.y)
         BlockSolid(BBlock19.x,BBlock19.y)
         if Level == 1:
-            l3BreakableBlock1.visible = True
             BlockSolid(l1Block1.x,l1Block1.y)
             BlockSolid(l1Block2.x,l1Block2.y)
             BlockSolid(l1Block3.x,l1Block3.y)
             BlockSolid(l1Block4.x,l1Block4.y)
             BlockSolid(l1Block5.x,l1Block5.y)
         if Level == 2:
-            l3BreakableBlock1.visible = True
             BlockSolid(l2Block1.x,l2Block1.y)
             BlockSolid(l2Block2.x,l2Block2.y)
             BlockSolid(l2Block3.x,l2Block3.y)
@@ -221,11 +236,18 @@ def update(dt):
             if collision.rectangle(Bullet.x,Bullet.y ,l3BreakableBlock1.x,l3BreakableBlock1.y ,6,5 ,32,32) and l3BreakableBlock1.visible and Bullet.visible == True:
                 l3BreakableBlock1.visible = False
                 Bullet.visible = False
-            if collision.rectangle(Bullet.x,Bullet.y ,l3BreakableBlock2.x,l3BreakableBlock2.y ,6,5 ,32,32) and l3BreakableBlock2.visible and Bullet.visible == True:
-                l3BreakableBlock2.visible = False
-                Bullet.visible = False
             if l3BreakableBlock1.visible: BlockSolid(l3BreakableBlock1.x,l3BreakableBlock1.y)
-            if l3BreakableBlock2.visible: BlockSolid(l3BreakableBlock2.x,l3BreakableBlock2.y)
+            BlockSolid(l3Block1.x,l3Block1.y)
+            BlockSolid(l3Block2.x,l3Block2.y)
+            BlockSolid(l3Block3.x,l3Block3.y)
+            BlockSolid(l3Block4.x,l3Block4.y)
+            BlockSolid(l3Block5.x,l3Block5.y)
+            BlockSolid(l3Block6.x,l3Block6.y)
+            BlockSolid(l3Block7.x,l3Block7.y)
+            BlockSolid(l3Block8.x,l3Block8.y)
+            BlockSolid(l3Block9.x,l3Block9.y)
+            BlockSolid(l3Block10.x,l3Block10.y)
+            BlockSolid(l3Block11.x,l3Block11.y)
         if collision.rectangle(Player.x,Player.y ,l0Enemy1.x,l0Enemy1.y ,32,32 ,32,32) and Level == 0:
                 Player.x = 100
                 Player.y = 200
@@ -249,6 +271,11 @@ def update(dt):
                 Player.x = 100
                 Player.y = 200
                 Level = 3
+                Jump = False
+        if collision.rectangle(Player.x,Player.y ,l3Goal1.x,l3Goal1.y ,32,32 ,32,32) and Level == 3:
+                Player.x = 100
+                Player.y = 200
+                Level = 4
                 Jump = False
 # Draw the objects on screen
 @window.event

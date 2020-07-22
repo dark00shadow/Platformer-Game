@@ -1,0 +1,3 @@
+Linux: python3 -m PyInstaller -w -F -i Textures/Icon.ico Main.py
+
+Windows: python -m PyInstaller -w -F -i Textures/Icon.ico Main.py
