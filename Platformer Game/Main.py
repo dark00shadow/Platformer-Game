@@ -4,7 +4,7 @@ from pyglet.gl import *
 from RectangleCollision import collision
 
 Texture = 'Textures/'
-Level = 3
+Level = 0
 # Window
 window = pyglet.window.Window(caption='Platformer Game' ,width=600,height=600)
 window.set_location(window.screen.width//2-window.width//2, window.screen.height//2-window.height//2)
