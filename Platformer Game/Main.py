@@ -127,7 +127,7 @@ l3Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=568,y=132, batch=Level3)
 # you won
 WinLabel = pyglet.text.Label('You have won welldone :)', x=20,y=300,font_size=30)
 # Bullet
-Bullet = pyglet.sprite.Sprite(pyglet.image.load(Texture+ 'bullet.png') ,x=300,y=300)
+Bullet = pyglet.sprite.Sprite(pyglet.image.load(Texture+ 'Bullet.png') ,x=300,y=300)
 BulletDirection = 'left'
 Bullet.visible = False
 SpacePressed = False
