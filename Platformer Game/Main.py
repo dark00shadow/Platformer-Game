@@ -4,7 +4,7 @@ from pyglet.gl import *
 from RectangleCollision import collision
 
 Texture = 'Textures/'
-Level = 0
+Level = 3
 # Window
 window = pyglet.window.Window(caption='Platformer Game' ,width=600,height=600)
 window.set_location(window.screen.width//2-window.width//2, window.screen.height//2-window.height//2)
@@ -28,6 +28,7 @@ Base = pyglet.graphics.Batch()
 Level0 = pyglet.graphics.Batch()
 Level1 = pyglet.graphics.Batch()
 Level2 = pyglet.graphics.Batch()
+Level3 = pyglet.graphics.Batch()
 # Start Menu
 StartButton = pyglet.image.load(Texture+ 'Start button.png')
 StartLabel = pyglet.text.Label('Platformer game', x=50,y=500,color=(0,128,0,255), font_size=50)
@@ -37,6 +38,7 @@ PlayerImage2 = pyglet.image.load(Texture+ 'Player=Right.png')
 Player = pyglet.sprite.Sprite(PlayerImage2 ,x=100,y=200)
 PlayerOldPosY = 0
 Jump = False
+PlayerDirection = 'right'
 # Blocks
 BlockImage1 = pyglet.image.load(Texture+ 'Grass.png')
 # Base
@@ -87,6 +89,8 @@ def BlockSolid(BlockX, BlockY):
         Player.x -= 1
     if collision.rectangle(Player.x,Player.y ,BlockX+30,BlockY+1 ,32,32 ,2,30):
         Player.x += 1
+    if collision.rectangle(Bullet.x,Bullet.y ,BlockX,BlockY ,6,5 ,32,32):
+        Bullet.visible = False
 # Enemy
 EnemyImage1 = pyglet.image.load(Texture+ 'Enemy.png')
 # level0
@@ -101,8 +105,18 @@ l0Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=544,y=132, batch=Level0)
 l1Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=544,y=228, batch=Level1)
 # level2
 l2Goal1 = pyglet.sprite.Sprite(GoalImage1 ,x=560,y=384, batch=Level2)
-# yoy won
+# you won
 WinLabel = pyglet.text.Label('You have won welldone :)', x=50,y=300,font_size=30)
+# Bullet
+Bullet = pyglet.sprite.Sprite(pyglet.image.load(Texture+ 'bullet.png') ,x=300,y=300)
+BulletDirection = 'left'
+Bullet.visible = False
+SpacePressed = False
+shoot = False
+# Breakable block
+BreakableBlockImage1 = pyglet.image.load(Texture+ 'Breakable block.png')
+l3BreakableBlock1 = pyglet.sprite.Sprite(BreakableBlockImage1 ,x=300,y=132, batch=Level3)
+l3BreakableBlock2 = pyglet.sprite.Sprite(BreakableBlockImage1 ,x=300,y=164, batch=Level3)
 # Mouse Position
 MouseX = 0
 MouseY = 0
@@ -119,7 +133,7 @@ def on_mouse_motion(x, y, dx, dy):
 
 # Update function
 def update(dt):
-    global Start, Jump, Level
+    global Start, Jump, Level, PlayerDirection, SpacePressed, shoot, BulletDirection
     # If Start = True
     if Start == True:
         pyglet.gl.glClearColor(0.5,1,1,0)
@@ -140,13 +154,34 @@ def update(dt):
 
         if key_handler[key.A]:
             Player.x -= 1
-            Player.image = PlayerImage1
+            PlayerDirection = 'left'
         if key_handler[key.D]:
             Player.x += 1
-            Player.image = PlayerImage2
+            PlayerDirection = 'right'
         if Jump == True:
             Player.y += 3
             if Player.y >= PlayerOldPosY + 80: Jump = False
+        if key_handler[key.SPACE] and SpacePressed == False and Bullet.visible == False and shoot == True:
+            SpacePressed == True
+            BulletDirection = PlayerDirection
+            Bullet.visible = True
+            shoot = False
+        if SpacePressed == True and not KeyHandler[key.SPACE]: SpacePressed = False
+        if Bullet.visible == False:
+            Bullet.y = Player.y+ 16
+            if PlayerDirection == 'left': Bullet.x = Player.x
+            if PlayerDirection == 'right': Bullet.x = Player.x+32
+            shoot = True
+        if BulletDirection == 'left' and Bullet.visible == True:
+            Bullet.x -= 4
+            Bullet.y -= 0.3
+        if BulletDirection == 'right' and Bullet.visible == True:
+            Bullet.x += 4
+            Bullet.y -= 0.3
+        if Bullet.x >= 593 and BulletDirection == 'right':Bullet.visible = False
+        if Bullet.x <= -1 and BulletDirection == 'left': Bullet.visible = False
+        if PlayerDirection == 'left': Player.image = PlayerImage1
+        if PlayerDirection == 'right': Player.image = PlayerImage2
         BlockSolid(BBlock1.x,BBlock1.y)
         BlockSolid(BBlock2.x,BBlock2.y)
         BlockSolid(BBlock3.x,BBlock3.y)
@@ -167,12 +202,14 @@ def update(dt):
         BlockSolid(BBlock18.x,BBlock18.y)
         BlockSolid(BBlock19.x,BBlock19.y)
         if Level == 1:
+            l3BreakableBlock1.visible = True
             BlockSolid(l1Block1.x,l1Block1.y)
             BlockSolid(l1Block2.x,l1Block2.y)
             BlockSolid(l1Block3.x,l1Block3.y)
             BlockSolid(l1Block4.x,l1Block4.y)
             BlockSolid(l1Block5.x,l1Block5.y)
         if Level == 2:
+            l3BreakableBlock1.visible = True
             BlockSolid(l2Block1.x,l2Block1.y)
             BlockSolid(l2Block2.x,l2Block2.y)
             BlockSolid(l2Block3.x,l2Block3.y)
@@ -180,6 +217,15 @@ def update(dt):
             BlockSolid(l2Block5.x,l2Block5.y)
             BlockSolid(l2Block6.x,l2Block6.y)
             BlockSolid(l2Block7.x,l2Block7.y)
+        if Level == 3:
+            if collision.rectangle(Bullet.x,Bullet.y ,l3BreakableBlock1.x,l3BreakableBlock1.y ,6,5 ,32,32) and l3BreakableBlock1.visible and Bullet.visible == True:
+                l3BreakableBlock1.visible = False
+                Bullet.visible = False
+            if collision.rectangle(Bullet.x,Bullet.y ,l3BreakableBlock2.x,l3BreakableBlock2.y ,6,5 ,32,32) and l3BreakableBlock2.visible and Bullet.visible == True:
+                l3BreakableBlock2.visible = False
+                Bullet.visible = False
+            if l3BreakableBlock1.visible: BlockSolid(l3BreakableBlock1.x,l3BreakableBlock1.y)
+            if l3BreakableBlock2.visible: BlockSolid(l3BreakableBlock2.x,l3BreakableBlock2.y)
         if collision.rectangle(Player.x,Player.y ,l0Enemy1.x,l0Enemy1.y ,32,32 ,32,32) and Level == 0:
                 Player.x = 100
                 Player.y = 200
@@ -198,6 +244,7 @@ def update(dt):
                 Player.y = 200
                 Level = 2
                 Jump = False
+
         if collision.rectangle(Player.x,Player.y ,l2Goal1.x,l2Goal1.y ,32,32 ,32,32) and Level == 2:
                 Player.x = 100
                 Player.y = 200
@@ -207,16 +254,19 @@ def update(dt):
 @window.event
 def on_draw():
     window.clear()
+    Bullet.draw()
     if Start == True:
         StartLabel.draw()
         StartButton.blit(200,300)
     if Start == False:
+        Bullet.draw()
         Player.draw()
         Base.draw()
         if Level == 0: Level0.draw()
         if Level == 1: Level1.draw()
         if Level == 2: Level2.draw()
-        if Level == 3: WinLabel.draw()
+        if Level == 3: Level3.draw()
+        if Level == 4: WinLabel.draw()
 
 
 # update the update function
