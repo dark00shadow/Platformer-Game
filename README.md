@@ -17,7 +17,7 @@ SPACE = Shoot
 
 # What each object is
 
-Player = ![Player==left](https://github.com/dark00shadow/Platformer-Game/blob/master/Platformer%20Game/Textures/Player%3DLeft.png) and or ![Player==right](https://github.com/dark00shadow/Platformer-Game/blob/master/Platformer%20Game/Textures/Player%3DRight.png)
+Player = ![Player==left](https://github.com/dark00shadow/Platformer-Game/blob/master/Platformer%20Game/Textures/Player%3DLeft.png) or ![Player==right](https://github.com/dark00shadow/Platformer-Game/blob/master/Platformer%20Game/Textures/Player%3DRight.png)
 
 Block1 = ![Block1](https://github.com/dark00shadow/Platformer-Game/blob/master/Platformer%20Game/Textures/Grass.png)
 
